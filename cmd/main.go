@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/julianojj/desafio_encurtador_url/internal/infra/api/controllers"
 	"github.com/julianojj/desafio_encurtador_url/internal/infra/api/routes"
 	"github.com/julianojj/desafio_encurtador_url/internal/infra/repository/database"
@@ -22,7 +24,7 @@ func main() {
 	}
 
 	// database
-	connectionString := "postgres://juliano:123456@localhost:5432/app?sslmode=disable"
+	connectionString := os.Getenv("BASE_URL")
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		log.Fatal(err)
