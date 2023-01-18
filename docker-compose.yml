@@ -8,3 +8,9 @@ services:
     ports:
       - 5432:5432
     restart: always
+    volumes:
+      - ./script.sql:/docker-entrypoint-initdb.d/script.sql
+      - postgres_volume:/var/lib/postgresql/data
+
+volumes:
+  postgres_volume:
