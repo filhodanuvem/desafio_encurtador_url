@@ -25,18 +25,6 @@ POSTGRES_DB=dbname
 ```
 Logo após, devemos rodar o comando `docker compose up -d` para subir o banco de dados
 
-Devemos fazer a conexão e criar a tabela abaixo:
-```
-CREATE TABLE shortener(
-  id VARCHAR(36) PRIMARY KEY,
-  longurl TEXT NOT NULL,
-  shorturl CHAR(6) NOT NULL UNIQUE,
-  expiresin TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-```
-
 ## Comandos utilizados:
 ```
 go test ./...
