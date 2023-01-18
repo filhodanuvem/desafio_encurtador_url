@@ -6,14 +6,22 @@ Desafio encurtador de url proposto pela plataforma Devgym
 uuid v1.3.0
 testify v1.8.1
 pq v1.10.7
+godotenv v1.4.0
 ```
 
 ## Como rodar o projeto?
-Anteriomente, devemos criar um arquivo .db.env com as seguintes configurações:
+Anteriomente, devemos criar um arquivo 2 arquivos, .env e .db.env com as seguintes configurações:
+
+.env deve conter o `BASE_URL` para a conexão com o banco de dados
 ```
-POSTGRES_USER=my_username
-POSTGRES_PASSWORD=my_password
-POSTGRES_DB=my_dbname
+BASE_URL="postgres://username:password@host:port/dbname?sslmode=disable"
+```
+
+.db.env
+```
+POSTGRES_USER=username
+POSTGRES_PASSWORD=password
+POSTGRES_DB=dbname
 ```
 Logo após, devemos rodar o comando `docker compose up -d` para subir o banco de dados
 
@@ -28,8 +36,6 @@ CREATE TABLE shortener(
   updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 ```
-
-Nas strings de conexão, devemos altera-lo de acordo com o usuário criado!
 
 ## Comandos utilizados:
 ```
