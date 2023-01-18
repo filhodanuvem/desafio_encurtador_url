@@ -1,21 +1,14 @@
 package usecases
 
 import (
-	"database/sql"
-	"log"
 	"testing"
 
-	"github.com/julianojj/desafio_encurtador_url/internal/infra/repository/database"
+	"github.com/julianojj/desafio_encurtador_url/internal/infra/repository/memory"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSHouldCreateANewShortenerAndGetOriginalURLBasedOnShortUrl(t *testing.T) {
-	connectionString := "postgres://juliano:123456@localhost:5432/app?sslmode=disable"
-	db, err := sql.Open("postgres", connectionString)
-	if err != nil {
-		log.Fatal(err)
-	}
-	shortenerRepository := database.NewShortenerRepositoryDatabase(db)
+	shortenerRepository := memory.NewShortenerRepositoryMemory()
 	makeShortenerURL := NewMakeShortenerURL(shortenerRepository)
 	inputMakeShortenerURL := MakeShortenerInputURL{
 		Url: "https://github.com/julianojj",
