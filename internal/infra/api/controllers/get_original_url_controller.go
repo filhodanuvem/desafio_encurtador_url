@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"encoding/json"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"github.com/julianojj/desafio_encurtador_url/internal/usecases"
 )
 
@@ -17,16 +17,29 @@ func NewGetOriginalURLController(getOriginalURL *usecases.GetOriginalURL) *GetOr
 	}
 }
 
-func (m *GetOriginalURLController) Handle(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Error(w, "method not supported", http.StatusMethodNotAllowed)
-		return
-	}
-	shortURL := r.URL.Query().Get("code")
+func (m *GetOriginalURLController) Handle(c *gin.Context) {
+	shortURL := c.Query("code")
 	output, err := m.GetOriginalURL.Execute(shortURL)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	if err == nil {
+		c.JSON(http.StatusOK, output)
 		return
 	}
-	json.NewEncoder(w).Encode(output)
+	if err.Error() == "short not found" {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": err.Error(),
+			"status":  http.StatusNotFound,
+		})
+		return
+	}
+	if err.Error() == "expired short" {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"message": err.Error(),
+			"status":  http.StatusUnprocessableEntity,
+		})
+		return
+	}
+	c.JSON(http.StatusInternalServerError, gin.H{
+		"message": err.Error(),
+		"status":  http.StatusInternalServerError,
+	})
 }

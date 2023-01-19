@@ -2,11 +2,10 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
-	"net/http"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/julianojj/desafio_encurtador_url/internal/infra/api/controllers"
 	"github.com/julianojj/desafio_encurtador_url/internal/infra/api/routes"
@@ -16,12 +15,8 @@ import (
 )
 
 func main() {
-	mux := http.NewServeMux()
-	port := 3000
-	server := &http.Server{
-		Addr:    fmt.Sprintf("localhost:%d", port),
-		Handler: mux,
-	}
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
 
 	// database
 	connectionString := os.Getenv("BASE_URL")
@@ -41,11 +36,12 @@ func main() {
 
 	// routes
 	routes.NewShortenerRoute(
-		mux,
+		r,
 		makeShortenerController,
 		getOriginalURLController,
 	).Init()
 
-	log.Println("Starting server on port: ", port)
-	server.ListenAndServe()
+	// log.Println("Starting server on port: ", port)
+	// server.ListenAndServe()
+	r.Run(":3000")
 }

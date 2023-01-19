@@ -1,26 +1,25 @@
 package routes
 
 import (
-	"net/http"
-
+	"github.com/gin-gonic/gin"
 	"github.com/julianojj/desafio_encurtador_url/internal/infra/api/controllers"
 )
 
 type ShortenerRoute struct {
-	Mux                      *http.ServeMux
+	App                      *gin.Engine
 	MakeShortenerController  *controllers.MakeShortenerURLController
 	GetOriginalURLController *controllers.GetOriginalURLController
 }
 
-func NewShortenerRoute(mux *http.ServeMux, makeShortenerController *controllers.MakeShortenerURLController, getOriginalURLController *controllers.GetOriginalURLController) *ShortenerRoute {
+func NewShortenerRoute(app *gin.Engine, makeShortenerController *controllers.MakeShortenerURLController, getOriginalURLController *controllers.GetOriginalURLController) *ShortenerRoute {
 	return &ShortenerRoute{
-		Mux:                      mux,
+		App:                      app,
 		MakeShortenerController:  makeShortenerController,
 		GetOriginalURLController: getOriginalURLController,
 	}
 }
 
 func (s *ShortenerRoute) Init() {
-	s.Mux.HandleFunc("/cut", s.MakeShortenerController.Handle)
-	s.Mux.HandleFunc("/uncut", s.GetOriginalURLController.Handle)
+	s.App.POST("/cut", s.MakeShortenerController.Handle)
+	s.App.GET("/uncut", s.GetOriginalURLController.Handle)
 }
