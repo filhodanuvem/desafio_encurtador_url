@@ -7,6 +7,7 @@ uuid v1.3.0
 testify v1.8.1
 pq v1.10.7
 godotenv v1.4.0
+gin v1.8.2
 ```
 
 ## Como rodar o projeto?
