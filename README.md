@@ -11,7 +11,7 @@ gin v1.8.2
 ```
 
 ## Como rodar o projeto?
-Anteriomente, devemos criar um arquivo 2 arquivos, .env e .db.env com as seguintes configurações:
+Devemos criar um arquivo 2 arquivos, .env e .db.env com as seguintes configurações:
 
 .env deve conter o `BASE_URL` para a conexão com o banco de dados
 ```
@@ -24,7 +24,7 @@ POSTGRES_USER=username
 POSTGRES_PASSWORD=password
 POSTGRES_DB=dbname
 ```
-Logo após, devemos rodar o comando `docker compose up -d` para subir o banco de dados
+Devemos rodar o comando `docker compose up -d` para subir o banco de dados
 
 ## Comandos utilizados:
 ```
